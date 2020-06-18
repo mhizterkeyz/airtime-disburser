@@ -1,0 +1,25 @@
+{
+  "name": "airtime-sender",
+  "version": "1.0.0",
+  "description": "Airtime sender application for hngi sweet sweet points",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [
+    "airtime",
+    "airtime-sender",
+    "hngi",
+    "hng"
+  ],
+  "author": "Emmanuel Menyaga (@script on slack)",
+  "license": "ISC",
+  "dependencies": {
+    "africastalking": "^0.4.7",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "read-excel-file": "^4.0.6"
+  }
+}
