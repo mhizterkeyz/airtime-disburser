@@ -168,6 +168,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
           "some aritime was not disbursed. scroll through list for failures."
         );
       }
+      console.log(res);
       error.data.forEach((elem) => {
         const { ID } = elem;
         if (elem.errorMessage.length > 1) {
