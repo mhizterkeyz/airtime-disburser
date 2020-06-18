@@ -173,18 +173,20 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
       if (res.numSent < Object.values(inputFields)) {
         error.display(
           `${
-            Object.values(inputFields) - res.numSent
+            Object.values(inputFields).length - res.numSent
           } aritime was not disbursed. scroll through list for failures.`
         );
       } else {
         error.success("All airtime successfully disbursed");
       }
-      console.log(typeof res, typeof res.responses);
       res.responses &&
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
           const { ID } = elem;
-          if (elem.status && elem.status.toLowerCase !== "sent") {
+          if (
+            (elem.status && elem.status.toLowerCase !== "sent") ||
+            elem.errorMessage !== "None"
+          ) {
             document.querySelector(`#${ID} .field-alert`).innerHTML =
               elem.errorMessage;
           }
