@@ -38,7 +38,7 @@ router.post("/", async (req, res, next) => {
     );
     const options = { recipients };
     let data = await airtime.send(options);
-    const responses = _.merge(req.body.reciepients, data.responses);
+    const responses = _.merge(req.body.recipients, data.responses);
     res.status(200).json({
       message: "airtime data:",
       status: 200,
