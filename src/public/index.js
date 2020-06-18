@@ -169,7 +169,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         );
       }
       console.log(res);
-      error.data.forEach((elem) => {
+      res.responses.forEach((elem) => {
         const { ID } = elem;
         if (elem.errorMessage.length > 1) {
           document.querySelector(`#${ID} .field-alert`).innerHTML =
