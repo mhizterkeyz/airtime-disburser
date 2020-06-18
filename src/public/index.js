@@ -171,7 +171,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
       console.log(res);
       res.responses.forEach((elem) => {
         const { ID } = elem;
-        if (elem.errorMessage.length > 1) {
+        if (elem.status.toLowerCase !== "sent") {
           document.querySelector(`#${ID} .field-alert`).innerHTML =
             elem.errorMessage;
         }
