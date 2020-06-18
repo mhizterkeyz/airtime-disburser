@@ -6,6 +6,11 @@ const error = {
   store: [],
   isDisplaying: false,
   closeCall: null,
+  success: (msg) => {
+    box.classList.add("success");
+    document.querySelector(".tag").innerHTML = "Success: ";
+    error.display(msg);
+  },
   display: (msg) => {
     if (error.isDisplaying) {
       error.store.push(msg);
@@ -23,6 +28,8 @@ const error = {
     error.isDisplaying = false;
     clearTimeout(error.closeCall);
     setTimeout(() => {
+      box.classList.remove("success");
+      document.querySelector(".tag").innerHTML = "Error: ";
       if (error.store.length > 0) {
         error.display(error.store[0]);
         error.store.splice(0, 1);
@@ -165,17 +172,23 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
       loader.hide();
       if (res.numSent < Object.values(inputFields)) {
         error.display(
-          "some aritime was not disbursed. scroll through list for failures."
+          `${
+            Object.values(inputFields) - res.numSent
+          } aritime was not disbursed. scroll through list for failures.`
         );
+      } else {
+        error.success("All airtime successfully disbursed");
       }
-      console.log(res);
-      res.responses.forEach((elem) => {
-        const { ID } = elem;
-        if (elem.status.toLowerCase !== "sent") {
-          document.querySelector(`#${ID} .field-alert`).innerHTML =
-            elem.errorMessage;
-        }
-      });
+      console.log(typeof res, typeof res.responses);
+      res.responses &&
+        Array.isArray(res.responses) &&
+        res.responses.forEach((elem) => {
+          const { ID } = elem;
+          if (elem.status && elem.status.toLowerCase !== "sent") {
+            document.querySelector(`#${ID} .field-alert`).innerHTML =
+              elem.errorMessage;
+          }
+        });
     })
     .catch((err) => {
       error.display(err.message);
