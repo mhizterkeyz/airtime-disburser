@@ -170,15 +170,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         throw new Error(res.message);
       }
       loader.hide();
-      if (res.numSent < Object.values(inputFields).length) {
-        error.display(
-          `${
-            Object.values(inputFields).length - res.numSent
-          } aritime was not disbursed. scroll through list for failures.`
-        );
-      } else {
-        error.success("All airtime successfully disbursed");
-      }
+      let count = 0;
       res.responses &&
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
@@ -189,10 +181,18 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
           ) {
             document.querySelector(`#${ID} .field-alert`).innerHTML =
               elem.errorMessage;
+            count += 1;
           } else {
             document.querySelector(`#${ID} .field-alert`).innerHTML = "";
           }
         });
+      if (count > 0) {
+        error.display(
+          `${count} aritime was not disbursed. scroll through list for failures.`
+        );
+      } else {
+        error.success("All airtime successfully disbursed");
+      }
     })
     .catch((err) => {
       error.display(err.message);
