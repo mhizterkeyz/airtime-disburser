@@ -3,21 +3,12 @@ const _ = require("lodash");
 const xlsxFile = require("read-excel-file/node");
 const path = require("path");
 const fs = require("fs");
+const axios = require("axios");
 
 router.use(require("body-parser").json());
 
 router.post("/", async (req, res, next) => {
   try {
-    // Get authentication
-    const credentials = {
-      apiKey: process.env.apiKey, // use your sandbox app API key for development in the test environment
-      username: process.env.username, // use 'sandbox' for development in the test environment
-    };
-
-    const AfricasTalking = require("africastalking")(credentials);
-
-    const airtime = AfricasTalking.AIRTIME;
-
     if (!Array.isArray(req.body.recipients) || !req.body.recipients) {
       return res.status(422).json({
         message: "recipients must be an array",
@@ -29,20 +20,49 @@ router.post("/", async (req, res, next) => {
       (acc, cur) => [
         ...acc,
         {
-          phoneNumber: cur.phoneNumber,
-          currencyCode: cur.currencyCode,
-          amount: cur.amount,
+          PhoneNumber: cur.PhoneNumber,
+          Code: cur.Code,
+          Amount: cur.Amount,
+          SecretKey: process.env.apiSecretKey,
         },
       ],
       []
     );
-    const options = { recipients };
-    let data = await airtime.send(options);
-    const responses = _.merge(req.body.recipients, data.responses);
-    res.status(200).json({
-      message: "airtime data:",
+    let responses = await Promise.all(
+      recipients.map(async (elem) => {
+        try {
+          const req = await axios.post(
+            process.env.apiAirtimePurchaseUrl,
+            elem,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: "Bearer " + process.env.apiPublicKey,
+              },
+            }
+          );
+          // console.log(req.data);
+          return req.data;
+        } catch (error) {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.ResponseCode
+          ) {
+            return {
+              message: error.response.data.Message,
+              ...JSON.parse(error.config.data),
+            };
+          }
+          throw error;
+        }
+      })
+    );
+    responses = _.merge(req.body.recipients, responses);
+    return res.status(200).json({
+      message: "data",
       status: 200,
-      numSent: data.numSent,
       responses,
     });
   } catch (error) {
@@ -63,9 +83,9 @@ router.post("/spreadsheet", async (req, res, next) => {
         ...acc,
         {
           username: cur[0],
-          phoneNumber: cur[1],
-          currencyCode: cur[2],
-          amount: cur[3],
+          PhoneNumber: cur[1],
+          Code: cur[2],
+          Amount: cur[3],
         },
       ],
       []

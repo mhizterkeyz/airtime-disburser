@@ -9,8 +9,8 @@ In the project directory, you can run:
 ### Requirements
 
 - run cp .env.example .env and then set environmental variables
-- The app depends on [Africas Talking](https://africastalking.com) for the airtime sending function, so head over to their websit and get yourself an apiKey and a username to be able to send airtime.
-- The app can parse excel sheets too. your excel file should be in the format: |username|phone|currency code|amount in other to be parsed properly.
+- The app depends on [Wallets Africa](https://wallets.africa) for the airtime sending function, so head over to their website and get yourself an API Keys to be able to send airtime.
+- The app can parse excel sheets too. your excel file should be in the format: |username|phone|code|amount in other to be parsed properly.
 
 ### Contributors
 

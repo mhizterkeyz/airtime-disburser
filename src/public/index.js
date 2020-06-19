@@ -45,9 +45,9 @@ const updateState = (ev, ID) => {
 };
 const fieldRow = (
   user = "",
-  phoneNumber = "",
-  currencyCode = "NGN",
-  amount = 100
+  PhoneNumber = "",
+  Code = "airtel",
+  Amount = 100
 ) => {
   const fields = document.querySelector(".fields");
   const ID = `fieldRow_${Math.floor(Math.random() * 1000000000)}`;
@@ -73,20 +73,18 @@ const fieldRow = (
     createInput("text", "username", "user (@script) optional", user)
   );
   inputs.append(
-    createInput("text", "phoneNumber", "phone (+234816245214)", phoneNumber)
+    createInput("text", "PhoneNumber", "phone (+234816245214)", PhoneNumber)
   );
-  inputs.append(
-    createInput("text", "currencyCode", "Currency code (NGN)", currencyCode)
-  );
-  inputs.append(createInput("number", "amount", "amount (100)", amount));
+  inputs.append(createInput("text", "Code", "Currency code (NGN)", Code));
+  inputs.append(createInput("number", "Amount", "amount (100)", Amount));
   markup.append(inputs);
   inputFields = {
     ...inputFields,
     [ID]: {
       username: "",
-      phoneNumber: "",
-      currencyCode: "NGN",
-      amount: 100,
+      PhoneNumber: "",
+      Code: "airtel",
+      Amount: 100,
       ID,
     },
   };
@@ -139,12 +137,7 @@ document.querySelector("#base64").addEventListener("input", function (ev) {
       }
       loader.hide();
       res.data.forEach((elem) =>
-        fieldRow(
-          elem.username,
-          elem.phoneNumber,
-          elem.currencyCode,
-          elem.amount
-        )
+        fieldRow(elem.username, elem.PhoneNumber, elem.Code, elem.Amount)
       );
     })
     .catch((err) => {
@@ -155,6 +148,7 @@ document.querySelector("#base64").addEventListener("input", function (ev) {
 
 document.querySelectorAll("button")[0].addEventListener("click", function () {
   const recipients = Object.values(inputFields);
+
   loader.show();
   fetch(`${window.location.href}api/`, {
     method: "POST",
@@ -170,29 +164,29 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         throw new Error(res.message);
       }
       loader.hide();
-      let count = 0;
+      let errorCount = 0;
       res.responses &&
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
-          const { ID } = elem;
-          if (
-            (elem.status && elem.status.toLowerCase() !== "sent") ||
-            (elem.errorMessage && elem.errorMessage.length !== 4)
-          ) {
-            document.querySelector(`#${ID} .field-alert`).innerHTML =
-              elem.errorMessage;
-            count += 1;
+          if (elem.message.toLowerCase().indexOf("transaction in") === -1) {
+            errorCount++;
+            document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
+              elem.message;
           } else {
-            document.querySelector(`#${ID} .field-alert`).innerHTML = "";
+            document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
+              "success";
+            document.querySelector(`#${elem.ID} .field-alert`).style.color =
+              "green";
           }
         });
-      if (count > 0) {
+      if (errorCount > 0) {
         error.display(
-          `${count} aritime was not disbursed. scroll through list for failures.`
+          `${errorCount} errors occurred. scroll through list for details`
         );
-      } else {
-        error.success("All airtime successfully disbursed");
-      }
+      } else
+        error.success(
+          "Transaction in progress, we will notify you once it is completed"
+        );
     })
     .catch((err) => {
       error.display(err.message);
