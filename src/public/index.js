@@ -170,7 +170,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         throw new Error(res.message);
       }
       loader.hide();
-      if (res.numSent < Object.values(inputFields)) {
+      if (res.numSent < Object.values(inputFields).length) {
         error.display(
           `${
             Object.values(inputFields).length - res.numSent
@@ -185,7 +185,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
           const { ID } = elem;
           if (
             (elem.status && elem.status.toLowerCase !== "sent") ||
-            elem.errorMessage !== "None"
+            (elem.errorMessage && elem.errorMessage !== "None")
           ) {
             document.querySelector(`#${ID} .field-alert`).innerHTML =
               elem.errorMessage;
