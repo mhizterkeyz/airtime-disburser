@@ -184,8 +184,8 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         res.responses.forEach((elem) => {
           const { ID } = elem;
           if (
-            (elem.status && elem.status.toLowerCase !== "sent") ||
-            (elem.errorMessage && elem.errorMessage !== "None")
+            (elem.status && elem.status.toLowerCase() !== "sent") ||
+            (elem.errorMessage && elem.errorMessage.length !== 4)
           ) {
             document.querySelector(`#${ID} .field-alert`).innerHTML =
               elem.errorMessage;
