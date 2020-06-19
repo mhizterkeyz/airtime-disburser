@@ -188,6 +188,7 @@ label {
 label,
 button,
 input {
+  margin-bottom: 4px;
   padding: 10px 15px;
   border-radius: 4px;
   color: #fff;
