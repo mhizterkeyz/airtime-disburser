@@ -168,13 +168,15 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
       res.responses &&
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
-          if (elem.message.toLowerCase().indexOf("transaction in") === -1) {
+          if (
+            elem.message.toLowerCase().indexOf("transaction in progress") === -1
+          ) {
             errorCount++;
             document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
               elem.message;
           } else {
             document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
-              "success";
+              elem.message;
             document.querySelector(`#${elem.ID} .field-alert`).style.color =
               "green";
           }
