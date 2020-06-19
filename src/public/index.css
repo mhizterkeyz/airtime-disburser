@@ -138,8 +138,18 @@ body {
   box-sizing: border-box;
 }
 .container {
-  width: 70%;
+  width: 90%;
   margin: auto;
+}
+@media (min-width: 768px) {
+  .container {
+    width: 80%;
+  }
+}
+@media (min-width: 922px) {
+  .container {
+    width: 70%;
+  }
 }
 .logo {
   max-width: 40px;
@@ -183,12 +193,14 @@ label {
   font-weight: 500;
   text-transform: capitalize;
   background: #f2f2f2;
+  margin-bottom: 10px;
 }
 
 label,
 button,
 input {
   margin-bottom: 4px;
+  margin-top: 20px;
   padding: 10px 15px;
   border-radius: 4px;
   color: #fff;

@@ -165,6 +165,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
       }
       loader.hide();
       let errorCount = 0;
+      console.log(res);
       res.responses &&
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
