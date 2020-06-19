@@ -68,7 +68,7 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     if (error.response && error.response.data) {
       return res.status(500).json({
-        message: error.response.data.message,
+        message: error.response.data.Message,
         status: 500,
       });
     }
