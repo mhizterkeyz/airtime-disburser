@@ -189,6 +189,8 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
           ) {
             document.querySelector(`#${ID} .field-alert`).innerHTML =
               elem.errorMessage;
+          } else {
+            document.querySelector(`#${ID} .field-alert`).innerHTML = "";
           }
         });
     })
