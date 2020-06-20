@@ -170,6 +170,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
           if (
+            elem.message &&
             elem.message.toLowerCase().indexOf("transaction in progress") === -1
           ) {
             errorCount++;
