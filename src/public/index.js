@@ -18,9 +18,12 @@ const error = {
     }
     document.querySelector(".fillable").innerHTML = msg;
     error.isDisplaying = true;
-    box.classList.remove("hide");
-    box.classList.add("show");
-    error.closeCall = setTimeout(() => error.close(), 3000);
+    box.style.display = "block";
+    setTimeout(() => {
+      box.classList.remove("hide");
+      box.classList.add("show");
+      error.closeCall = setTimeout(() => error.close(), 3000);
+    }, 0.5);
   },
   close: () => {
     box.classList.remove("show");
@@ -28,6 +31,7 @@ const error = {
     error.isDisplaying = false;
     clearTimeout(error.closeCall);
     setTimeout(() => {
+      box.style.display = "none";
       box.classList.remove("success");
       document.querySelector(".tag").innerHTML = "Error: ";
       if (error.store.length > 0) {
@@ -172,10 +176,16 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
           if (
             (elem.message &&
               elem.message.toLowerCase().indexOf("transaction in progress") ===
-                -1) ||
+                -1 &&
+              elem.message
+                .toLowerCase()
+                .indexOf("airtime purchased successfully") === -1) ||
             (elem.Message &&
               elem.Message.toLowerCase().indexOf("transaction in progress") ===
-                -1)
+                -1 &&
+              elem.Message.toLowerCase().indexOf(
+                "airtime purchased successfully"
+              ) === -1)
           ) {
             errorCount++;
             document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
