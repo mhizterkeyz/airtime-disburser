@@ -170,21 +170,22 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         Array.isArray(res.responses) &&
         res.responses.forEach((elem) => {
           if (
-            elem.message &&
-            elem.message.toLowerCase().indexOf("transaction in progress") === -1
+            (elem.message &&
+              elem.message.toLowerCase().indexOf("transaction in progress") ===
+                -1) ||
+            (elem.Message &&
+              elem.Message.toLowerCase().indexOf("transaction in progress") ===
+                -1)
           ) {
             errorCount++;
             document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
-              elem.message;
+              elem.message || elem.Message;
           } else {
             document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
-              elem.message;
+              elem.message || elem.Message;
             document.querySelector(`#${elem.ID} .field-alert`).style.color =
               "green";
           }
-          document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
-            JSON.stringify(Object.keys(elem)) +
-            JSON.stringify(Object.values(elem));
         });
       if (errorCount > 0) {
         error.display(
