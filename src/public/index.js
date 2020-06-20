@@ -201,10 +201,7 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
         error.display(
           `${errorCount} errors occurred. scroll through list for details`
         );
-      } else
-        error.success(
-          "Transaction in progress, we will notify you once it is completed"
-        );
+      } else error.success("Airtime purchased successfully");
     })
     .catch((err) => {
       error.display(err.message);
