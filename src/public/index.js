@@ -182,6 +182,9 @@ document.querySelectorAll("button")[0].addEventListener("click", function () {
             document.querySelector(`#${elem.ID} .field-alert`).style.color =
               "green";
           }
+          document.querySelector(`#${elem.ID} .field-alert`).innerHTML =
+            JSON.stringify(Object.keys(elem)) +
+            JSON.stringify(Object.values(elem));
         });
       if (errorCount > 0) {
         error.display(
